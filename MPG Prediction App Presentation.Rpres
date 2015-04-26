@@ -1,0 +1,55 @@
+MPG Prediction Application
+========================================================
+author: Yisong Li
+date: April 26th, 2015
+transition: rotate
+
+[Project Repo](https://github.com/liyisong1028/FirstShinyApp)
+
+<small>
+Crosby MBA Program<br>
+Trulaske College of Business<br>
+University of Missouri
+</small>
+
+Application Overveiw
+========================================================
+
+The application estimates the MPG of cars reactively with following inputs
+- Car weight
+- 1/4 mile time
+- Transmission type
+
+User Interface
+========================================================
+- Intuitive layout. 
+- User friendly input methods
+- Clear output display
+
+![UIpic](Figures/UI.png)
+
+Predictive Model
+========================================================
+- Multivariable linear regression model
+- The algorithm used to estimate MPG is
+```{r}
+MPGpred <- function(wt, qsec, am) 18.088-5.873*(wt-1)+5.797*am+1.107*(qsec-14)-8.283*wt*am
+```
+- For a car weigh 1 ton, has 1/4 mile time of 14 seconds, and has automatic transmission, its MPG will be estimated to be
+```{r}
+wt<-1; qsec<-14; am<-0
+MPGpred(wt, qsec, am)
+```
+
+More Details
+========================================================
+- The model is built using the `mtcars` dataset
+- It is the project of Regression Model course
+- The coefficient table of the model showed below
+```{r, echo=FALSE}
+data <- mtcars
+data$wt <- data$wt/2-1
+data$qsec<-data$qsec-14
+fit <- lm(mpg~wt + am + qsec + wt*am, data = data)
+summary(fit)$coef
+```
